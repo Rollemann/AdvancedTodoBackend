@@ -1,5 +1,4 @@
-﻿
-using TodoList.Domain;
+﻿using TodoList.Domain.Entities;
 
 namespace TodoList.Application.Repositories
 {
@@ -8,7 +7,7 @@ namespace TodoList.Application.Repositories
         Task<IEnumerable<TodoItem>> GetTodoItems();
         Task<bool> AddTodoItem(TodoItem todoItem);
         Task<bool> UpdateTodoItem(TodoItem todoItem);
-        Task<TodoItem> DeleteTodoItem(string id);
+        Task<TodoItem> DeleteTodoItem(int id);
 
     }
 }

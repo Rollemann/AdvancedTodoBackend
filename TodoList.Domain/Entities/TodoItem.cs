@@ -1,11 +1,15 @@
-﻿namespace TodoList.Domain
+﻿namespace TodoList.Domain.Entities;
+public class TodoItem
 {
-    public class TodoItem
-    {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public Schedule Schedule { get; set; }
-        public bool IsCompleted { get; set; }
-    }
+    public int Id { get; set; }
+
+    public required string Title { get; set; }
+
+    public required string Description { get; set; }
+
+    public required Schedule Schedule { get; set; }
+
+    public required bool IsCompleted { get; set; }
+
+    public required Category Category { get; set; }
 }

@@ -1,11 +1,10 @@
-﻿using System.Drawing;
+﻿namespace TodoList.Domain.Entities;
 
-namespace TodoList.Domain
+public class Category
 {
-    public class Category
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public Color Color { get; set; }
-    }
+    public int Id { get; set; }
+
+    public required string Name { get; set; }
+
+    public required string Color { get; set; }
 }
