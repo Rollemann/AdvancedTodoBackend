@@ -7,4 +7,6 @@ public class Category
     public required string Name { get; set; }
 
     public required string Color { get; set; }
+
+    public required IList<TodoItem> TodoItems { get; set; }
 }

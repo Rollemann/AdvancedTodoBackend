@@ -1,27 +1,62 @@
-﻿using TodoList.Application.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using TodoList.Application.Repositories;
 using TodoList.Domain.Entities;
+using TodoList.Infrastructure.Providers;
 
 namespace TodoList.Infrastructure.Repositories;
 
-internal class TodoListRepository : ITodoListRepository
+public class TodoListRepository : ITodoListRepository
 {
-    public Task<bool> AddTodoItem(TodoItem todoItem)
+
+    private readonly TodoListContext _context;
+
+    public TodoListRepository(TodoListContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task<TodoItem> DeleteTodoItem(int id)
+    public async Task<int> AddTodoItem(TodoItem todoItem)
     {
-        throw new NotImplementedException();
+        var categories = _context.Categories.Include(c => c.TodoItems);
+        var category = categories.Where(c => c.Id == todoItem.CategoryId).FirstOrDefault() ?? categories.First();
+        category.TodoItems ??= [];
+        category.TodoItems.Add(todoItem);
+        await _context.SaveChangesAsync();
+        return todoItem.Id;
     }
 
-    public Task<IEnumerable<TodoItem>> GetTodoItems()
+    public async Task<IEnumerable<TodoItem>> GetTodoItems()
     {
-        throw new NotImplementedException();
+        return await _context.TodoItems.ToListAsync();
     }
-    
-    public Task<bool> UpdateTodoItem(TodoItem todoItem)
+
+    public async Task<bool> UpdateTodoItem(TodoItem todoItem)
     {
-        throw new NotImplementedException();
+        _context.TodoItems.Update(todoItem);
+        try // TODO: Error Handling hier oder eher im Controller
+        {
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteTodoItem(int id)
+    {
+        var todoItem = new TodoItem() { Id = id, Title = String.Empty, Description = String.Empty, IsCompleted = true, CronSchedule = String.Empty, Repetitions = 0 };
+        // TODO: Geht das hier drüber auch kürzer?
+        _context.TodoItems.Remove(todoItem);
+        try // TODO: Error Handling hier oder eher im Controller
+        {
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }

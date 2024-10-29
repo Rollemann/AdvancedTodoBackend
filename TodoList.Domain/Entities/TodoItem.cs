@@ -7,9 +7,13 @@ public class TodoItem
 
     public required string Description { get; set; }
 
-    public required Schedule Schedule { get; set; }
-
     public required bool IsCompleted { get; set; }
 
-    public required Category Category { get; set; }
+    public required string CronSchedule { get; set; }
+
+    public required int Repetitions { get; set; }
+
+    public Category Category { get; set; }
+
+    public int CategoryId { get; set; }
 }
