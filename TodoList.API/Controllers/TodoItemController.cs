@@ -5,7 +5,6 @@ using TodoList.Application.Commands.AddTodoItem;
 using TodoList.Application.Commands.DeleteTodoItem;
 using TodoList.Application.Commands.UpdateTodoItem;
 using TodoList.Application.Queries.GetTodoItems;
-using TodoList.Domain.Entities;
 
 namespace TodoList.API.Controllers;
 
@@ -30,13 +29,18 @@ public class TodoItemController : ControllerBase
     {
         try // TODO: in middle ware auslagern; Lieber hier try catch oder im Repo wie bei Update und Delete?
         {
-            return Ok(await _mediator.Send(new AddTodoItemCommand(
+            var addResult = await _mediator.Send(new AddTodoItemCommand(
                 todoItemInput.Title,
                 todoItemInput.Description,
                 todoItemInput.CronSchedule,
                 todoItemInput.Repetitions,
                 todoItemInput.CategoryId
-                )));
+                ));
+            if (addResult.Id < 0)
+            {
+                return BadRequest("Wrong cron format");
+            }
+            return Ok();
         }
         catch (Exception)
         {

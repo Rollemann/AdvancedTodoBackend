@@ -42,19 +42,6 @@ app.Run();
 
 
 // Add-Migration Init -Project TodoList.Infrastructure -StartupProject TodoList.API
+// Add-Migration Init -Project TodoItemDetails.Infrastructure -StartupProject TodoItemDetails.API
 // Docker compose laufen lassen
 // Update-Database -Project TodoList.Infrastructure
-
-
-/* Zu machen:
- * 
- * API für CRUD Category
- * API für CRUD TODO Items
- * 
- * API für die Details
- * 
- * Validieren oder kreieren vom Schedule
- * 
- * Frontend bauen
- * 
- */

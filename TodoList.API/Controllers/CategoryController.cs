@@ -6,7 +6,6 @@ using TodoList.Application.Commands.AddCategory;
 using TodoList.Application.Commands.DeleteCategory;
 using TodoList.Application.Commands.UpdateCategory;
 using TodoList.Application.Queries.GetCategories;
-using TodoList.Domain.Entities;
 
 
 namespace TodoList.API.Controllers;
@@ -32,7 +31,12 @@ public class CategoryController : ControllerBase
     {
         try // TODO: in middle ware auslagern; Lieber hier try catch oder im Repo wie bei Update und Delete?
         {
-            return Ok(await _mediator.Send(new AddCategoryCommand(categoryInput.Name, categoryInput.Color)));
+            var addResult = await _mediator.Send(new AddCategoryCommand(categoryInput.Name, categoryInput.Color));
+            if (addResult.Id < 0)
+            {
+                return BadRequest("Wrong color format.");
+            }
+            return Ok();
         }
         catch (Exception)
         {

@@ -1,12 +1,6 @@
 version: '3.4'
 
 services:
-  todolist.api:
-    image: ${DOCKER_REGISTRY-}todolistapi
-    build:
-      context: .
-      dockerfile: TodoList.API/Dockerfile
-
   postgres:
     image: postgres
     ports:
@@ -18,6 +12,18 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb-data:/var/lib/mongodb/data
+
+
   pgadmin:
     image: dpage/pgadmin4
     environment:
@@ -28,7 +34,35 @@ services:
       - "8001:8001" 
     depends_on:
       - postgres
+   
+  rabiitmq:
+    image: rabbitmq:4.0-management
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - rabbitmq_net
 
+  todoitemdetails.api:
+    image: ${DOCKER_REGISTRY-}todoitemdetailsapi
+    build:
+      context: .
+      dockerfile: TodoItemDetails.API/Dockerfile
+
+  todolist.api:
+    image: ${DOCKER_REGISTRY-}todolistapi
+    build:
+      context: .
+      dockerfile: TodoList.API/Dockerfile
 
 volumes:
   postgres-data:
+  mongodb-data:
+
+networks:
+  rabbitmq_net:
+    driver: bridge
+
