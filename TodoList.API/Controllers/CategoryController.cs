@@ -14,13 +14,13 @@ namespace TodoList.API.Controllers;
 [Route("[controller]")]
 public class CategoryController : ControllerBase
 {
-    //private readonly ILogger<CategoryController> _logger;
+    private readonly ILogger<CategoryController> _logger;
     private readonly IMediator _mediator;
 
 
-    public CategoryController(/*ILogger<CategoryController> logger,*/ IMediator mediator)
+    public CategoryController(ILogger<CategoryController> logger, IMediator mediator)
     {
-        //_logger = logger;
+        _logger = logger;
         _mediator = mediator;
     }
 

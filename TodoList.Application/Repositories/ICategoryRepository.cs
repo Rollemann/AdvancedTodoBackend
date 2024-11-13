@@ -1,16 +1,14 @@
-﻿using TodoList.Application.Commands.AddCategory;
-using TodoList.Domain.Entities;
+﻿using TodoList.Domain.Entities;
 
-namespace TodoList.Application.Repositories
+namespace TodoList.Application.Repositories;
+
+public interface ICategoryRepository
 {
-    public interface ICategoryRepository
-    {
-        Task<IEnumerable<Category>> GetCategories();
+    Task<IEnumerable<Category>> GetCategories();
 
-        Task<int> AddCategory(Category category);
+    Task<int> AddCategory(Category category);
 
-        Task<bool> UpdateCategory(Category category);
+    Task<bool> UpdateCategory(Category category);
 
-        Task<bool> DeleteCategory(int Id);
-    }
+    Task<bool> DeleteCategory(int Id);
 }

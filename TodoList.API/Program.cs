@@ -20,6 +20,7 @@ builder.Services.AddDbContext<TodoListContext>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ITodoListRepository, TodoListRepository>();
+builder.Services.AddSingleton<INotificationRepository, NotificationRepository>(); // Singelton hier gut?
 
 
 
@@ -45,3 +46,9 @@ app.Run();
 // Add-Migration Init -Project TodoItemDetails.Infrastructure -StartupProject TodoItemDetails.API
 // Docker compose laufen lassen
 // Update-Database -Project TodoList.Infrastructure
+
+/**
+ *
+ * 
+ * 
+ */
