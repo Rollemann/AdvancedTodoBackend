@@ -20,7 +20,7 @@ builder.Services.AddDbContext<TodoListContext>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ITodoListRepository, TodoListRepository>();
-builder.Services.AddSingleton<INotificationRepository, NotificationRepository>(); // Singelton hier gut?
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>(); // Singelton hier gut?
 
 
 
@@ -48,7 +48,8 @@ app.Run();
 // Update-Database -Project TodoList.Infrastructure
 
 /**
- *
+ * AddTodoItem in Queue senden
+ * DeleteTodoItem als Event senden (broadcast mässig)
  * 
  * 
  */

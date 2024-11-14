@@ -12,13 +12,13 @@ namespace TodoList.API.Controllers;
 [Route("[controller]")]
 public class TodoItemController : ControllerBase
 {
-    //private readonly ILogger<CategoryController> _logger;
+    private readonly ILogger<CategoryController> _logger;
     private readonly IMediator _mediator;
 
 
-    public TodoItemController(/*ILogger<CategoryController> logger,*/ IMediator mediator)
+    public TodoItemController(ILogger<CategoryController> logger, IMediator mediator)
     {
-        //_logger = logger;
+        _logger = logger;
         _mediator = mediator;
     }
 
@@ -40,7 +40,7 @@ public class TodoItemController : ControllerBase
             {
                 return BadRequest("Wrong cron format");
             }
-            return Ok();
+            return Ok(addResult);
         }
         catch (Exception)
         {
@@ -57,8 +57,9 @@ public class TodoItemController : ControllerBase
         {
             return Ok(await _mediator.Send(new GetTodoItemsQuery()));
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            _logger.LogError(e, e.Message);
             return BadRequest();
         }
     }

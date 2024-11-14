@@ -22,6 +22,9 @@ builder.Services.AddDbContext<ItemDetailsContext>(options =>
 
 builder.Services.AddScoped<IItemDetailsRepository, ItemDetailsRepository>();
 
+builder.Services.AddHostedService<ConsumerHostedService>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
